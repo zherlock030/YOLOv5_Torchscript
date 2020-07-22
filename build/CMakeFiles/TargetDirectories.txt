@@ -1,0 +1,4 @@
+/home/zherlock/c++ example/object detection/build/CMakeFiles/rebuild_cache.dir
+/home/zherlock/c++ example/object detection/build/CMakeFiles/yolov5s.dir
+/home/zherlock/c++ example/object detection/build/CMakeFiles/yolo.dir
+/home/zherlock/c++ example/object detection/build/CMakeFiles/edit_cache.dir

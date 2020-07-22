@@ -1,0 +1,63 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1e612/fast && /usr/bin/make  -f CMakeFiles/cmTC_1e612.dir/build.make CMakeFiles/cmTC_1e612.dir/build
+make[1]: Entering directory '/home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1e612.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_1e612.dir/src.c.o   -c "/home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp/src.c"
+Linking C executable cmTC_1e612
+/home/zherlock/cmake-3.16.6-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e612.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_1e612.dir/src.c.o  -o cmTC_1e612 
+CMakeFiles/cmTC_1e612.dir/src.c.o：在函数‘main’中：
+src.c:(.text+0x3c)：对‘pthread_create’未定义的引用
+src.c:(.text+0x48)：对‘pthread_detach’未定义的引用
+src.c:(.text+0x59)：对‘pthread_join’未定义的引用
+src.c:(.text+0x6d)：对‘pthread_atfork’未定义的引用
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_1e612.dir/build.make:89: recipe for target 'cmTC_1e612' failed
+make[1]: *** [cmTC_1e612] Error 1
+make[1]: Leaving directory '/home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp'
+Makefile:124: recipe for target 'cmTC_1e612/fast' failed
+make: *** [cmTC_1e612/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7a23f/fast && /usr/bin/make  -f CMakeFiles/cmTC_7a23f.dir/build.make CMakeFiles/cmTC_7a23f.dir/build
+make[1]: Entering directory '/home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7a23f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_7a23f.dir/CheckFunctionExists.c.o   -c /home/zherlock/cmake-3.16.6-Linux-x86_64/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7a23f
+/home/zherlock/cmake-3.16.6-Linux-x86_64/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a23f.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_7a23f.dir/CheckFunctionExists.c.o  -o cmTC_7a23f  -lpthreads 
+/usr/bin/ld: 找不到 -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_7a23f.dir/build.make:89: recipe for target 'cmTC_7a23f' failed
+make[1]: *** [cmTC_7a23f] Error 1
+make[1]: Leaving directory '/home/zherlock/c++ example/object detection/build/CMakeFiles/CMakeTmp'
+Makefile:124: recipe for target 'cmTC_7a23f/fast' failed
+make: *** [cmTC_7a23f/fast] Error 2
+
+
+

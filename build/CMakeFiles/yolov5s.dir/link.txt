@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG  -shared -Wl,-soname,libyolov5s.so -o libyolov5s.so CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o 
