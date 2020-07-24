@@ -148,9 +148,28 @@ at::Tensor non_max_suppression(at::Tensor pred, std::vector<string> labels, floa
 }
 
 
-cv::Mat letterbox(Mat img, int new_height = 640, int new_width = 640, Scalar color = (114,114,114), bool autos = true, bool scaleFill=false, bool scaleup=true){
+int find_new_shape(int num, int base){
+  if(num%base != 0){
+    return num + base - num%base;
+  }
+  return num;
+}
+
+//现在的操作是，无论子图的大小，都是makeboarder。
+//如果测试中发现，对小子图这样子增加了运算量的话，可以试着deleteboarder。
+//makerboarder的意义在于，没有改变物体本身的长宽比，一直变化的是一个系数
+//TODO,还不理解，为什么480要变成512,难道64才是真理,480是可以做的，shape有个check函数里检查是否满足需求,480无所谓的。
+cv::Mat new_box(Mat img, int new_height = 640, int new_width = 480, Scalar color = (114,114,114), bool autos = true, bool scaleFill=false, bool scaleup=true){
   int width = img.cols;
   int height = img.rows;
+  int base = 32;
+  //int 
+  new_width = find_new_shape(width, base);
+  //int 
+  new_height = find_new_shape(height, base);
+
+  cout << "line 166, new_width is " << new_width << " new height is " << new_height << endl; 
+
   float rh = float(new_height) / height;
   float rw = float(new_width) / width;
   float ratio;
@@ -244,15 +263,21 @@ int main(int argc,char * argv[]){
   string img_path = "/home/zherlock/c++ example/object detection/files/test.png";
   //string img_path = "/home/zherlock/InstanceDetection/yolov5_old/test.png";
   Mat img = imread(img_path);
+  //img = img(Rect(0,0,img.cols/2,img.rows/2)).clone();
+  img = img(Rect(0,0,160,320)).clone();
+  cout << "line 268, " << img.cols << " " << img.rows << endl;
   Mat im0 = imread(img_path);
   auto tim0 = torch::from_blob(img.data, {img.rows, img.cols, img.channels()});
-  img = letterbox(img);//zh,,resize
+  img = new_box(img);//zh,,resize
+  //return 0;
   cvtColor(img, img, CV_BGR2RGB);//***zh, bgr->rgb
   start = time_in_ms();
   img.convertTo(img, CV_32FC3, 1.0f / 255.0f);//zh, 1/255
   auto tensor_img = torch::from_blob(img.data, {img.rows, img.cols, img.channels()});
   tensor_img = tensor_img.permute({2, 0, 1});
-  tensor_img = tensor_img.unsqueeze(0);
+  tensor_img = tensor_img.unsqueeze(0);//
+  cout << "line 276, " << tensor_img.sizes() << endl;
+  tensor_img = tensor_img.index({Slice(), Slice(), Slice(1,60), Slice(15, 180)});
   std::vector<torch::jit::IValue> inputs;
   inputs.push_back(tensor_img);
   cout << "it took " << time_in_ms() - start << " ms to preprocess image" << endl;
