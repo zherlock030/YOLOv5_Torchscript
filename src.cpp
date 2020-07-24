@@ -24,6 +24,26 @@ using namespace std;
 using namespace cv;
 using namespace torch::indexing;
 
+
+vector<string> split(const string& str, const string& delim) {
+	vector<string> res;
+	if("" == str) return res;
+	//先将要切割的字符串从string类型转换为char*类型
+	char * strs = new char[str.length() + 1] ; //不要忘了
+	strcpy(strs, str.c_str());
+
+	char * d = new char[delim.length() + 1];
+	strcpy(d, delim.c_str());
+
+	char *p = strtok(strs, d);
+	while(p) {
+		string s = p; //分割得到的字符串转换为string类型
+		res.push_back(s); //存入结果数组
+		p = strtok(NULL, d);
+	}
+	return res;
+}
+
 long time_in_ms(){
       struct timeval t;
       gettimeofday(&t, NULL);
@@ -173,11 +193,77 @@ cv::Mat letterbox(Mat img, int new_height = 640, int new_width = 640, Scalar col
   return img;
 }
 
+
+at::Tensor make_grid(int nx = 20, int ny = 20){
+//yv, xv = torch.meshgrid([torch.arange(ny), torch.arange(nx)])
+//        return torch.stack((xv, yv), 2).view((1, 1, ny, nx, 2)).float()
+
+  std::vector<at::Tensor> temp = torch::meshgrid({torch::arange(ny), torch::arange(nx)});
+  at::Tensor yv = temp[0];
+  at::Tensor xv = temp[1];
+  //cout << "line 202, " << temp[0].sizes() <<endl;
+  at::Tensor retu = torch::stack({xv, yv},2).view({1,1,ny,nx,2}).toType(torch::kFloat);
+  //cout << "line 202, " << retu.sizes() <<endl;
+  //cout << "line 202, retu is " << retu.index({0,0,0,0,0}) <<endl;
+  //return torch::ones_like(retu);
+  return retu;
+}
+
+at::Tensor clip_coords(at::Tensor boxes, auto img_shape){
+  /*
+  # Clip bounding xyxy bounding boxes to image shape (height, width)
+    boxes[:, 0].clamp_(0, img_shape[1])  # x1
+    boxes[:, 1].clamp_(0, img_shape[0])  # y1
+    boxes[:, 2].clamp_(0, img_shape[1])  # x2
+    boxes[:, 3].clamp_(0, img_shape[0])  # y2
+  */
+  boxes.index({Slice(), 0}).clamp_(0, img_shape[1]);
+  boxes.index({Slice(), 1}).clamp_(0, img_shape[0]);
+  boxes.index({Slice(), 2}).clamp_(0, img_shape[1]);
+  boxes.index({Slice(), 3}).clamp_(0, img_shape[0]);
+  return boxes;
+}
+
+float max_shape(int shape[], int len){
+  float max = -10000;
+  for(int i = 0; i < len; i++){
+    if (shape[i] > max){
+      max = shape[i];
+    }
+  }
+  return max;
+}
+
+
+at::Tensor scale_coords(int img1_shape[], at::Tensor coords, int img0_shape[]){
+//gain = max(img1_shape) / max(img0_shape)  # gain  = old / new
+//pad = (img1_shape[1] - img0_shape[1] * gain) / 2, (img1_shape[0] - img0_shape[0] * gain) / 2  # wh padding
+  cout << "line 240, im1 " << img1_shape << endl;
+  cout << "line 241, im1 is " << max_shape(img1_shape, 2) << " and im0 is " << max_shape(img0_shape, 3) << endl;
+  float gain = max_shape(img1_shape, 2) / max_shape(img0_shape, 3);
+  float padw = (img1_shape[1] - img0_shape[1] * gain ) / 2.0;
+  float padh = (img1_shape[0] - img0_shape[0] * gain ) / 2.0;
+  cout << "line 244, gain is " << gain << ", padw is " << padw << " and padh is " << padh << endl;
+/*
+coords[:, [0, 2]] -= pad[0]  # x padding
+    coords[:, [1, 3]] -= pad[1]  # y padding
+    coords[:, :4] /= gain
+    clip_coords(coords, img0_shape)
+*/
+  coords.index_put_({Slice(), 0}, coords.index({Slice(), 0}) - padw);
+  coords.index_put_({Slice(), 2}, coords.index({Slice(), 2}) - padw);
+  coords.index_put_({Slice(), 1}, coords.index({Slice(), 1}) - padh);
+  coords.index_put_({Slice(), 3}, coords.index({Slice(), 3}) - padh);
+  coords.index_put_({Slice(), Slice(None, 4)}, coords.index({Slice(), Slice(None, 4)}) / gain);
+  clip_coords(coords, img0_shape);
+  return coords;
+}
+
 int main(int argc,char * argv[]){
 
   //at::init_num_threads();//***zh,好像加上这句，速度有一点点提升
 
-  string modelpath = "yolov5s.torchscript";
+  string modelpath = "/home/zherlock/c++ example/object detection/files/yolov5s.torchscript";
   long start = time_in_ms();
   torch::jit::script::Module model = torch::jit::load(modelpath);
   //long end = ;
@@ -187,9 +273,13 @@ int main(int argc,char * argv[]){
   torch::jit::setGraphExecutorOptimize(false);
 
   
-  string img_path = "/home/zherlock/InstanceDetection/yolov5_old/test.png";
+  string img_path = "/home/zherlock/c++ example/object detection/files/test.png";
+  //string img_path = "/home/zherlock/InstanceDetection/yolov5_old/test.png";
   Mat img = imread(img_path);
   Mat im0 = imread(img_path);
+  auto tim0 = torch::from_blob(img.data, {img.rows, img.cols, img.channels()});
+  //cout << "line 269, tim0 shape is " << tim0.sizes() << endl;//(480,640,3)
+  //return 0;
   img = letterbox(img);//zh,,resize
   
   cvtColor(img, img, CV_BGR2RGB);//***zh, bgr->rgb
@@ -207,17 +297,116 @@ int main(int argc,char * argv[]){
   torch::jit::IValue output = model.forward(inputs);
   //end = time_in_ms();
   cout << "it took " << time_in_ms() - start << " ms to model forward" << endl;
-  at::Tensor op = output.toTuple()->elements().at(0).toTensor();
-  op = op.view({-1 ,op.sizes()[2] });
 
+
+  //Detect layer
+  //set parameters
+  int ny, nx;
+  int na = 3;int no = 85;int bs = 1;
+  at::Tensor op_1, op_2, op_3, op;
+  at::Tensor y_0, y_1, y_2, y;
+  at::Tensor grid_1, grid_2, grid_3, grid;
+  float stride[3] = {8.0, 16.0, 32.0};
+  at::Tensor anchor_grid = torch::ones({3, 1, 3, 1, 1, 2});
   ifstream f;
+  string gridpath = "/home/zherlock/c++ example/object detection/files/anchor_grid.txt";
+  f.open(gridpath);
+  string str;
+  while (std::getline(f,str)){
+    vector<string> mp = split(str,",");
+    anchor_grid.index_put_({stoi(mp[0]),stoi(mp[1]),stoi(mp[2]),stoi(mp[3]),stoi(mp[4]),stoi(mp[5])}, torch::ones({1}) * stof(mp[6]) );
+  }
+  f.close();
+
+  //cout << "line 261, anchor grid is " << anchor_grid <<endl;
+
+
+//at::Tensor a = torch::ones({1}) * 18.0;
+//cout << "line 261, a is " << a <<endl;
+  //cout << "line 225, stride, " << stride[0] <<endl;
+  //grid_1 = torch::zeros({1});grid_2 = torch::zeros({1});grid_3 = torch::zeros({1});
+  //grid = torch::cat({grid_1, grid_2, grid_3}, 0);
+  //cout << "line 220, " << grid_1 << endl;
+
+  //at::Tensor xx = output.toList().get(0).toTensor();
+  //cout << "line 270, " << xx.sizes() << endl;
+  //cout << "line 271, " << xx.index({0,0,0,0,Slice(None, 5)}) << endl; //it fits
+
+  
+  //run
+  for(int i = 0; i < 3; i++){
+    op = output.toList().get(i).toTensor().contiguous();
+    //op = op.view({1, 255, op.sizes()[2],op.sizes()[3]});
+    //cout << "line 286, shape is " << op.sizes() << endl;
+    //cout << "line 287, test num is " << op.index({0,0,0,0,Slice(None, 5)}) << endl;
+    //cout << "line 287, test num is " << op.index({0,Slice(None, 5),0,0}) << endl;
+    //return 0;
+    bs = op.sizes()[0]; ny = op.sizes()[2]; nx = op.sizes()[3];
+    op = op.view({bs, na, no, ny, nx}).permute({0, 1, 3, 4, 2}).contiguous();
+    grid = make_grid(nx, ny);
+    //cout << "line 290, op shapes is " << op.sizes() << endl;
+    //cout << "line 291, test num is " << grid.index({0,0,47,0,Slice(None, 5)}) << endl;
+    //return 0;
+    y = op.sigmoid();
+    //cout << "line 292-0, test num is " << op.index({0,0,0,1,Slice(None, 5)}) << endl;
+    //cout << "line 292-1, test num is " << y.index({0,0,0,1,Slice(None, 5)}) << endl;
+    
+    //cout << "line 228, " << y.sizes() << endl;
+    //cout << "grid is " << grid.sizes() << endl;
+    //cout << "stride is " << stride[i] << endl;
+    //cout << "test num is " << grid.index({0,0,0,0,0}) << endl;
+    at::Tensor test = y.index({Slice(),Slice(), Slice(),Slice(), Slice(0, 2)}) * 2.0 - 0.5;
+    test = y.index({Slice(),Slice(), Slice(),Slice(), Slice(0, 2)}) * 2.0 - 0.5 + grid;
+    //cout << "line 304, test num is " << grid.index({0,0,0,0,Slice(None, 5)}) << endl;
+    //cout << "line 305, test num is " << test.index({0,0,0,0,Slice(None, 5)}) << endl;
+    at::Tensor temp = (y.index({Slice(),Slice(), Slice(),Slice(), Slice(0, 2)}) * 2.0 - 0.5 + grid) * stride[i];
+    y.index_put_({Slice(),Slice(), Slice(),Slice(), Slice(0, 2)}, temp);
+    //cout << "line 305, test num is " << temp.index({0,0,0,0,Slice(None, 5)}) << endl;
+
+
+    temp = (2.0 * y.index({Slice(),Slice(), Slice(),Slice(), Slice(2, 4)})).pow(2) * anchor_grid.index({i});
+    //cout << "line 306, test num is " << temp.index({0,0,0,0,Slice(None, 5)}) << endl;
+    y.index_put_({Slice(),Slice(), Slice(),Slice(), Slice(2, 4)}, temp);
+    y = y.view({bs, -1, no});
+    //cout << "line 308-0, test num is " << y.sizes() << endl;
+    //cout << "line 309-1, test num is " << y.index({0,0,Slice(None, 5)}) << endl;
+    if(i == 0){
+      y_0 = y;
+    } 
+    else if (i == 1){
+      y_1 = y;
+    }
+    else{
+      y_2 = y;
+    }
+    //y[..., 0:2] = (y[..., 0:2] * 2. - 0.5 + self.grid[i].to(x[i].device)) * self.stride[i]  # xy
+    //y[..., 2:4] = (y[..., 2:4] * 2) ** 2 * self.anchor_grid[i]  # wh
+    //z.append(y.view(bs, -1, self.no))
+}
+
+  op = torch::cat({y_0, y_1,y_2}, 1);
+  op = op.view({-1, op.sizes()[2]});
+  //cout << "line 297, op shape " << op.sizes() << endl;
+
+
+  cout << "line 306, test number is " << op.index({100,Slice(None, 5)}) << endl;
+  //return 0;
+  
+  
+
+
+  
+  //at::Tensor op = output.toTuple()->elements().at(0).toTensor();
+  //op = op.view({-1 ,op.sizes()[2] });
+  
+  
   std::vector<string> labels;
   string labelpath = "/home/zherlock/InstanceDetection/yolov5_old/labels.txt";
   f.open(labelpath);
-  string str;
   while (std::getline(f,str)){
     labels.push_back(str);
   }
+  f.close();
   start = time_in_ms();
   op = non_max_suppression(op, labels, 0.4, 0.5, true,  false);
   cout << "it took " << time_in_ms() - start << " ms to non_max_suppression" << endl;
@@ -227,7 +416,16 @@ int main(int argc,char * argv[]){
     cout << "no objects, line 401 " << endl; 
     return -1;
   }
-
+  int img_shape[2] = {tensor_img.sizes()[2], tensor_img.sizes()[3]};
+  int im0_shape[3] = {im0.rows, im0.cols, im0.channels()};
+  //cout << "line 422, img is " <<  img_shape[0] << " " << img_shape[1] << endl;
+  //cout << "line 422, im0 is " <<  im0_shape[0] << " " << im0_shape[1] << im0_shape[2] << endl;
+  //det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
+  //cout << "line 423, " << tensor_img.sizes()(2,3) << endl;
+  at::Tensor temp;
+  temp = scale_coords(img_shape, op.index({Slice(), Slice(None, 4)}), im0_shape).round();
+  cout << "line 421, temp is " << temp << endl;
+  op.index_put_({Slice(), Slice(None, 4)}, temp);
 
   for( int i = 0; i < op.sizes()[0]; i++ ){
 
@@ -255,7 +453,7 @@ int main(int argc,char * argv[]){
   waitKey();
 
 
-  
+
 
   return 0;
 }
