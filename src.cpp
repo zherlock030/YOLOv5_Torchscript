@@ -279,7 +279,9 @@ int main(int argc,char * argv[]){
   cout << "line 276, " << tensor_img.sizes() << endl;
   tensor_img = tensor_img.index({Slice(), Slice(), Slice(1,60), Slice(15, 180)});
   std::vector<torch::jit::IValue> inputs;
-  inputs.push_back(tensor_img);
+  inputs.push_back(tensor_img.index({Slice(), Slice(), Slice(None, 160), Slice(None, 160)}));
+  cout << "line 258, shape is " <<  tensor_img.index({Slice(), Slice(), Slice(None, 160), Slice(None, 160)}).sizes() << endl;
+  //inputs.push_back(tensor_img);
   cout << "it took " << time_in_ms() - start << " ms to preprocess image" << endl;
   start = time_in_ms();
   torch::jit::IValue output = model.forward(inputs);
