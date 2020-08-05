@@ -321,7 +321,8 @@ int main(int argc,char * argv[]){
   f.close();
   
   start = time_in_ms();
-  op = non_max_suppression(op, labels, 0.4, 0.5, true,  false);
+  float conf = 0.3;
+  op = non_max_suppression(op, labels, conf, 0.5, true,  false);
   cout << "it took " << time_in_ms() - start << " ms to non_max_suppression" << endl;
   try{
     at::Tensor temp  = op.index({0});
