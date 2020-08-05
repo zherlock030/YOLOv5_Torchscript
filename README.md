@@ -7,3 +7,7 @@ when u run export.py, Make sure u modify the detect layer to make it return the 
 
 2.write codes for image pre_processing, detect layer, and nms.
 
+src.cpp is a clean one that u can compile and run.
+
+my implementation is not perfect since I'm not familiar to libtorch, and I fixed some parameters in these functions.
+
