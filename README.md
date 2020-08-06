@@ -14,3 +14,5 @@ nms.cpp and nms.h are offered, I put them on the path /torchvision/include/torch
 
 my implementation is not perfect since I'm not familiar to libtorch, and I fixed some parameters in these functions.
 
+IMAGES IN DIFFERENT SHAPES CAN BE FED LIEK THAT IN PYTHON.
+
