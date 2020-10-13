@@ -81,7 +81,6 @@ at::Tensor non_max_suppression(at::Tensor pred, std::vector<string> labels, floa
 {
   int nc = pred.sizes()[1] - 5;
   at::Tensor xc = pred.index({Slice(None), 4}) > conf_thres; // # candidates,
-  //cout << "line 85, " << xc.sizes() << endl;
 
   int min_wh = 2;
   int max_wh = 4096;
@@ -103,9 +102,6 @@ at::Tensor non_max_suppression(at::Tensor pred, std::vector<string> labels, floa
   }
 
  x.index({Slice(),Slice(5,None)}) *= x.index({Slice(), Slice(4,5)});
-//cout << "line 106, " << x.sizes() << endl;
-//cout << "line 106, " << x.index({10,0}) << endl;
-
   at::Tensor box = xywh2xyxy(x.index({Slice(), Slice(None,4)}));
   if(true){ //here mulit label in python code
     //i, j = (x[:, 5:] > conf_thres).nonzero().t()
@@ -128,12 +124,7 @@ at::Tensor non_max_suppression(at::Tensor pred, std::vector<string> labels, floa
   at::Tensor boxes = x.index({Slice(), Slice(None, 4)}) + c;
   at::Tensor scores = x.index({Slice(),4});
 
-  //cout << "line 128 boxes are " << boxes.sizes() << endl;
-  //cout << "line 128 boxes are " << boxes << endl;
-
   at::Tensor i = nms(boxes, scores, iou_thres);
-  //cout << "line 128 nmsi are " << i.sizes() << endl;
-  //cout << "line 128 nmsi are " << i << endl;
 
   if(i.sizes()[0] > max_det){
     i = i.index({Slice(0,max_det)});
@@ -141,7 +132,6 @@ at::Tensor non_max_suppression(at::Tensor pred, std::vector<string> labels, floa
 
   if(merge){
     if( n > 1 && n < 3000){
-      //cout << "here weeeeeeeeeeeeeeeeeeeeee merge" << endl;
       at::Tensor iou = box_iou(boxes.index({i}), boxes) > iou_thres;
       at::Tensor weights = iou * scores.index({ {None} });
      at::Tensor temp1 = torch::mm(weights, x.index({Slice(), Slice(None, 4)})).toType(torch::kFloat);
@@ -154,7 +144,6 @@ at::Tensor non_max_suppression(at::Tensor pred, std::vector<string> labels, floa
     }
   }
   output = x.index({i});
-  //cout << "line 153 output is " << output << endl;
   return output;
 }
 
@@ -321,8 +310,6 @@ int main(int argc,char * argv[]){
 
   op = torch::cat({y_0, y_1,y_2}, 1);
   op = op.view({-1, op.sizes()[2]});
-  //cout << "line 313 op shape is " << op.sizes() << endl;
-  //cout << "op[0,0] is " << op.index({300,0}) << endl;
 
   //read label information
   std::vector<string> labels;
@@ -334,8 +321,7 @@ int main(int argc,char * argv[]){
   f.close();
   
   start = time_in_ms();
-  float conf = 0.4;
-  op = non_max_suppression(op, labels, conf, 0.5, false,  false);
+  op = non_max_suppression(op, labels, 0.4, 0.5, true,  false);
   cout << "it took " << time_in_ms() - start << " ms to non_max_suppression" << endl;
   try{
     at::Tensor temp  = op.index({0});
@@ -343,8 +329,6 @@ int main(int argc,char * argv[]){
     cout << "no objects, line 401 " << endl; 
     return -1;
   }
-
- 
   int img_shape[2] = {tensor_img.sizes()[2], tensor_img.sizes()[3]};
   int im0_shape[3] = {im0.rows, im0.cols, im0.channels()};
   at::Tensor temp;
