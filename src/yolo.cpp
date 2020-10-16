@@ -229,11 +229,7 @@ at::Tensor YOLO::scale_coords(int img1_shape[], at::Tensor coords, int img0_shap
      
  }
 
- void YOLO::readmat(string ImgPath){
-    // read a mat into inputs
-    img_path = ImgPath;
-    img = imread(img_path);
-    im0 = imread(img_path);
+ void YOLO::preprocess(){
     auto tim0 = torch::from_blob(img.data, {img.rows, img.cols, img.channels()});
     img = letterbox(img);  //zh,,resize
     cvtColor(img, img, CV_BGR2RGB);  //***zh, bgr->rgb
@@ -245,6 +241,20 @@ at::Tensor YOLO::scale_coords(int img1_shape[], at::Tensor coords, int img0_shap
     tensor_img = tensor_img.unsqueeze(0);
     //std::vector<torch::jit::IValue> inputs;
     inputs.push_back(tensor_img);
+ }
+
+
+ void YOLO::readmat(Mat &mat){
+    img = mat.clone();
+    im0 = mat.clone();
+ }
+
+ void YOLO::readmat(string ImgPath){
+    // read a mat into inputs
+    img_path = ImgPath;
+    img = imread(img_path);
+    im0 = imread(img_path);
+    
  }
 
  void YOLO::init_model(string ModelPath){

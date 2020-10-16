@@ -31,6 +31,7 @@ public:
     float max_shape(int shape[], int len);  //
     at::Tensor scale_coords(int img1_shape[], at::Tensor coords, int img0_shape[]);  // 
     void readmat(std::string ImgPath);
+    void readmat(cv::Mat &mat);
     void init_model(std::string ModelPath);
     int inference(std::string ImgPath);
     void show();
