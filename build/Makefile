@@ -126,72 +126,113 @@ yolov5s/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/build
 .PHONY : yolov5s/fast
 
-#=============================================================================
-# Target rules for targets named yolo
+src/main.o: src/main.cpp.o
 
-# Build rule for target.
-yolo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 yolo
-.PHONY : yolo
-
-# fast build rule for target.
-yolo/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/build
-.PHONY : yolo/fast
-
-home/zherlock/torchvision-abi/include/torchvision/nms.o: home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o
-
-.PHONY : home/zherlock/torchvision-abi/include/torchvision/nms.o
+.PHONY : src/main.o
 
 # target to build an object file
-home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o
-.PHONY : home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-home/zherlock/torchvision-abi/include/torchvision/nms.i: home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i
+src/main.i: src/main.cpp.i
 
-.PHONY : home/zherlock/torchvision-abi/include/torchvision/nms.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i
-.PHONY : home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-home/zherlock/torchvision-abi/include/torchvision/nms.s: home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s
+src/main.s: src/main.cpp.s
 
-.PHONY : home/zherlock/torchvision-abi/include/torchvision/nms.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s
-.PHONY : home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
-src.o: src.cpp.o
+src/nms.o: src/nms.cpp.o
 
-.PHONY : src.o
+.PHONY : src/nms.o
 
 # target to build an object file
-src.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src.cpp.o
-.PHONY : src.cpp.o
+src/nms.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/nms.cpp.o
+.PHONY : src/nms.cpp.o
 
-src.i: src.cpp.i
+src/nms.i: src/nms.cpp.i
 
-.PHONY : src.i
+.PHONY : src/nms.i
 
 # target to preprocess a source file
-src.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src.cpp.i
-.PHONY : src.cpp.i
+src/nms.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/nms.cpp.i
+.PHONY : src/nms.cpp.i
 
-src.s: src.cpp.s
+src/nms.s: src/nms.cpp.s
 
-.PHONY : src.s
+.PHONY : src/nms.s
 
 # target to generate assembly for a file
-src.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src.cpp.s
-.PHONY : src.cpp.s
+src/nms.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/nms.cpp.s
+.PHONY : src/nms.cpp.s
+
+src/src.o: src/src.cpp.o
+
+.PHONY : src/src.o
+
+# target to build an object file
+src/src.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/src.cpp.o
+.PHONY : src/src.cpp.o
+
+src/src.i: src/src.cpp.i
+
+.PHONY : src/src.i
+
+# target to preprocess a source file
+src/src.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/src.cpp.i
+.PHONY : src/src.cpp.i
+
+src/src.s: src/src.cpp.s
+
+.PHONY : src/src.s
+
+# target to generate assembly for a file
+src/src.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/src.cpp.s
+.PHONY : src/src.cpp.s
+
+src/yolo.o: src/yolo.cpp.o
+
+.PHONY : src/yolo.o
+
+# target to build an object file
+src/yolo.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/yolo.cpp.o
+.PHONY : src/yolo.cpp.o
+
+src/yolo.i: src/yolo.cpp.i
+
+.PHONY : src/yolo.i
+
+# target to preprocess a source file
+src/yolo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/yolo.cpp.i
+.PHONY : src/yolo.cpp.i
+
+src/yolo.s: src/yolo.cpp.s
+
+.PHONY : src/yolo.s
+
+# target to generate assembly for a file
+src/yolo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolov5s.dir/build.make CMakeFiles/yolov5s.dir/src/yolo.cpp.s
+.PHONY : src/yolo.cpp.s
 
 # Help Target
 help:
@@ -200,15 +241,20 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... yolov5s"
-	@echo "... yolo"
 	@echo "... edit_cache"
-	@echo "... home/zherlock/torchvision-abi/include/torchvision/nms.o"
-	@echo "... home/zherlock/torchvision-abi/include/torchvision/nms.i"
-	@echo "... home/zherlock/torchvision-abi/include/torchvision/nms.s"
-	@echo "... src.o"
-	@echo "... src.i"
-	@echo "... src.s"
+	@echo "... yolov5s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/nms.o"
+	@echo "... src/nms.i"
+	@echo "... src/nms.s"
+	@echo "... src/src.o"
+	@echo "... src/src.i"
+	@echo "... src/src.s"
+	@echo "... src/yolo.o"
+	@echo "... src/yolo.i"
+	@echo "... src/yolo.s"
 .PHONY : help
 
 

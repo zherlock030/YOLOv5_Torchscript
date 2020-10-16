@@ -4,17 +4,24 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zherlock/torchvision-abi/include/torchvision/nms.cpp" "/home/zherlock/c++ example/object detection/build/CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o"
+  "/home/zherlock/c++ example/object detection/src/main.cpp" "/home/zherlock/c++ example/object detection/build/CMakeFiles/yolov5s.dir/src/main.cpp.o"
+  "/home/zherlock/c++ example/object detection/src/nms.cpp" "/home/zherlock/c++ example/object detection/build/CMakeFiles/yolov5s.dir/src/nms.cpp.o"
+  "/home/zherlock/c++ example/object detection/src/src.cpp" "/home/zherlock/c++ example/object detection/build/CMakeFiles/yolov5s.dir/src/src.cpp.o"
+  "/home/zherlock/c++ example/object detection/src/yolo.cpp" "/home/zherlock/c++ example/object detection/build/CMakeFiles/yolov5s.dir/src/yolo.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
-  "yolov5s_EXPORTS"
+  "AT_PARALLEL_OPENMP=1"
   )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/home/zherlock/torchvision-abi/include"
+  "/home/zherlock/torchvision-abi/include/torchvision"
+  "/home/zherlock/anaconda3/envs/detectron2/include/python3.7m"
+  "../include"
   "/home/zherlock/opencv-2.4.9/build"
   "/home/zherlock/opencv-2.4.9/include"
   "/home/zherlock/opencv-2.4.9/include/opencv"
@@ -37,10 +44,8 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/home/zherlock/opencv-2.4.9/modules/superres/include"
   "/home/zherlock/opencv-2.4.9/modules/ts/include"
   "/home/zherlock/opencv-2.4.9/modules/videostab/include"
-  "/home/zherlock/torchvision-abi/include"
   "/home/zherlock/SLAM/libtorch/libtorch-abi/include/torch/csrc/api/include"
   "/home/zherlock/SLAM/libtorch/libtorch-abi/include"
-  "/home/zherlock/anaconda3/envs/detectron2/include/python3.7m"
   )
 
 # Targets to which this target links.

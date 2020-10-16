@@ -60,34 +60,102 @@ include CMakeFiles/yolov5s.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/yolov5s.dir/flags.make
 
-CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o: CMakeFiles/yolov5s.dir/flags.make
-CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o: /home/zherlock/torchvision-abi/include/torchvision/nms.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o -c /home/zherlock/torchvision-abi/include/torchvision/nms.cpp
+CMakeFiles/yolov5s.dir/src/main.cpp.o: CMakeFiles/yolov5s.dir/flags.make
+CMakeFiles/yolov5s.dir/src/main.cpp.o: ../src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/yolov5s.dir/src/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yolov5s.dir/src/main.cpp.o -c "/home/zherlock/c++ example/object detection/src/main.cpp"
 
-CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/zherlock/torchvision-abi/include/torchvision/nms.cpp > CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.i
+CMakeFiles/yolov5s.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yolov5s.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/zherlock/c++ example/object detection/src/main.cpp" > CMakeFiles/yolov5s.dir/src/main.cpp.i
 
-CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/zherlock/torchvision-abi/include/torchvision/nms.cpp -o CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.s
+CMakeFiles/yolov5s.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yolov5s.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/zherlock/c++ example/object detection/src/main.cpp" -o CMakeFiles/yolov5s.dir/src/main.cpp.s
+
+CMakeFiles/yolov5s.dir/src/nms.cpp.o: CMakeFiles/yolov5s.dir/flags.make
+CMakeFiles/yolov5s.dir/src/nms.cpp.o: ../src/nms.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/yolov5s.dir/src/nms.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yolov5s.dir/src/nms.cpp.o -c "/home/zherlock/c++ example/object detection/src/nms.cpp"
+
+CMakeFiles/yolov5s.dir/src/nms.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yolov5s.dir/src/nms.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/zherlock/c++ example/object detection/src/nms.cpp" > CMakeFiles/yolov5s.dir/src/nms.cpp.i
+
+CMakeFiles/yolov5s.dir/src/nms.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yolov5s.dir/src/nms.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/zherlock/c++ example/object detection/src/nms.cpp" -o CMakeFiles/yolov5s.dir/src/nms.cpp.s
+
+CMakeFiles/yolov5s.dir/src/src.cpp.o: CMakeFiles/yolov5s.dir/flags.make
+CMakeFiles/yolov5s.dir/src/src.cpp.o: ../src/src.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/yolov5s.dir/src/src.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yolov5s.dir/src/src.cpp.o -c "/home/zherlock/c++ example/object detection/src/src.cpp"
+
+CMakeFiles/yolov5s.dir/src/src.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yolov5s.dir/src/src.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/zherlock/c++ example/object detection/src/src.cpp" > CMakeFiles/yolov5s.dir/src/src.cpp.i
+
+CMakeFiles/yolov5s.dir/src/src.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yolov5s.dir/src/src.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/zherlock/c++ example/object detection/src/src.cpp" -o CMakeFiles/yolov5s.dir/src/src.cpp.s
+
+CMakeFiles/yolov5s.dir/src/yolo.cpp.o: CMakeFiles/yolov5s.dir/flags.make
+CMakeFiles/yolov5s.dir/src/yolo.cpp.o: ../src/yolo.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/yolov5s.dir/src/yolo.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/yolov5s.dir/src/yolo.cpp.o -c "/home/zherlock/c++ example/object detection/src/yolo.cpp"
+
+CMakeFiles/yolov5s.dir/src/yolo.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/yolov5s.dir/src/yolo.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/zherlock/c++ example/object detection/src/yolo.cpp" > CMakeFiles/yolov5s.dir/src/yolo.cpp.i
+
+CMakeFiles/yolov5s.dir/src/yolo.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/yolov5s.dir/src/yolo.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/zherlock/c++ example/object detection/src/yolo.cpp" -o CMakeFiles/yolov5s.dir/src/yolo.cpp.s
 
 # Object files for target yolov5s
 yolov5s_OBJECTS = \
-"CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o"
+"CMakeFiles/yolov5s.dir/src/main.cpp.o" \
+"CMakeFiles/yolov5s.dir/src/nms.cpp.o" \
+"CMakeFiles/yolov5s.dir/src/src.cpp.o" \
+"CMakeFiles/yolov5s.dir/src/yolo.cpp.o"
 
 # External object files for target yolov5s
 yolov5s_EXTERNAL_OBJECTS =
 
-libyolov5s.so: CMakeFiles/yolov5s.dir/home/zherlock/torchvision-abi/include/torchvision/nms.cpp.o
-libyolov5s.so: CMakeFiles/yolov5s.dir/build.make
-libyolov5s.so: CMakeFiles/yolov5s.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libyolov5s.so"
+../bin/yolov5s: CMakeFiles/yolov5s.dir/src/main.cpp.o
+../bin/yolov5s: CMakeFiles/yolov5s.dir/src/nms.cpp.o
+../bin/yolov5s: CMakeFiles/yolov5s.dir/src/src.cpp.o
+../bin/yolov5s: CMakeFiles/yolov5s.dir/src/yolo.cpp.o
+../bin/yolov5s: CMakeFiles/yolov5s.dir/build.make
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_videostab.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_ts.a
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_superres.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_stitching.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_contrib.so.2.4.9
+../bin/yolov5s: /home/zherlock/SLAM/libtorch/libtorch-abi/lib/libtorch.so
+../bin/yolov5s: /home/zherlock/SLAM/libtorch/libtorch-abi/lib/libc10.so
+../bin/yolov5s: /home/zherlock/torchvision-abi/lib/libtorchvision.so
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_nonfree.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_ocl.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_gpu.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_photo.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_objdetect.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_legacy.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_video.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_ml.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_calib3d.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_features2d.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_highgui.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_imgproc.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_flann.so.2.4.9
+../bin/yolov5s: /home/zherlock/opencv-2.4.9/build/lib/libopencv_core.so.2.4.9
+../bin/yolov5s: /home/zherlock/SLAM/libtorch/libtorch-abi/lib/libc10.so
+../bin/yolov5s: CMakeFiles/yolov5s.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/zherlock/c++ example/object detection/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable ../bin/yolov5s"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/yolov5s.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/yolov5s.dir/build: libyolov5s.so
+CMakeFiles/yolov5s.dir/build: ../bin/yolov5s
 
 .PHONY : CMakeFiles/yolov5s.dir/build
 
