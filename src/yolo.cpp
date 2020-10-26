@@ -225,7 +225,54 @@ at::Tensor YOLO::scale_coords(int img1_shape[], at::Tensor coords, int img0_shap
   return coords;
 }
 
- YOLO::YOLO(){
+ YOLO::YOLO(string ModelPath){
+    model_path = ModelPath;
+
+    // model initialization
+    torch::jit::getProfilingMode() = false;
+    torch::jit::getExecutorMode() = false;
+    torch::jit::setGraphExecutorOptimize(false);
+    start = time_in_ms();
+    //torch::jit::script::Module model = torch::jit::load(model_path);
+    model = torch::jit::load(model_path);
+    cout << "it took " << time_in_ms() - start << " ms to load the model" << endl;
+
+    //use temp inputs for model initialization
+    std::vector<torch::jit::IValue> temp_inputs;
+    temp_inputs.push_back(torch::ones({1, 3, 32, 32}));
+    //at::Tensor test_input = torch::ones({1, 1, 32, 32});
+    auto op = model.forward(temp_inputs);
+    
+
+
+    //Detect layer
+    //set parameters
+    // int ny, nx;
+    // int na = 3;int no = 85;int bs = 1;
+    // at::Tensor op;
+    // at::Tensor y_0, y_1, y_2, y;
+    //at::Tensor grid_1, grid_2, grid_3, grid;
+    //float stride[3] = {8.0, 16.0, 32.0};
+    anchor_grid = torch::ones({3, 1, 3, 1, 1, 2});
+    //at::Tensor anchor_grid = torch::ones({3, 1, 3, 1, 1, 2});
+
+    //read anchor_grid
+    ifstream f;
+    string gridpath = "/home/zherlock/c++ example/object detection/files/anchor_grid.txt";
+    f.open(gridpath);
+    string str;
+    while (std::getline(f,str)){
+        vector<string> mp = split(str,",");
+        anchor_grid.index_put_({stoi(mp[0]),stoi(mp[1]),stoi(mp[2]),stoi(mp[3]),stoi(mp[4]),stoi(mp[5])}, torch::ones({1}) * stof(mp[6]) );
+    }
+    f.close();
+
+    string labelpath = "/home/zherlock/c++ example/object detection/files/labels.txt";
+    f.open(labelpath);
+    while (std::getline(f,str)){
+        labels.push_back(str);
+    }
+    f.close();
      
  }
 
@@ -252,7 +299,6 @@ at::Tensor YOLO::scale_coords(int img1_shape[], at::Tensor coords, int img0_shap
  void YOLO::readmat(string ImgPath){
     // read a mat into inputs
     img_path = ImgPath;
-    img = imread(img_path);
     im0 = imread(img_path);
     
  }
@@ -337,11 +383,22 @@ at::Tensor YOLO::scale_coords(int img1_shape[], at::Tensor coords, int img0_shap
  }
 
 
- int YOLO::inference(string ImgPath){
-    //model inference
-    
+int YOLO::inference(string ImgPath){
     //read mat
     readmat(ImgPath);
+    return inference();
+ }
+
+int YOLO::inference(Mat &mat){
+    //read mat
+    readmat(mat);
+    return inference();
+ }
+
+
+ int YOLO::inference(){
+    //preprocess
+    preprocess();
 
     start = time_in_ms();
     cout << "good" << endl;
@@ -397,4 +454,3 @@ at::Tensor YOLO::scale_coords(int img1_shape[], at::Tensor coords, int img0_shap
     show();
     return 0;
  }
-

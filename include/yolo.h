@@ -19,7 +19,7 @@
 
 class YOLO{
 public:
-    YOLO();  // 
+    YOLO(std::string ModelPath);  // 
     at::Tensor box_area(at::Tensor box);  // 返回矩形面积
     at::Tensor box_iou(at::Tensor box1, at::Tensor box2);  // 返回两个矩形iou
     at::Tensor xywh2xyxy(at::Tensor x);  //
@@ -34,7 +34,10 @@ public:
     void readmat(cv::Mat &mat);
     void init_model(std::string ModelPath);
     int inference(std::string ImgPath);
+    int inference(cv::Mat &mat);
+    int inference();
     void show();
+    void preprocess();
 
 
 protected:

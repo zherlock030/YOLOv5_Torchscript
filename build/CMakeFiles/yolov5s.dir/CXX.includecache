@@ -5144,6 +5144,10 @@ wchar.h
 
 /home/zherlock/anaconda3/envs/detectron2/include/python3.7m/weakrefobject.h
 
+/home/zherlock/c++ example/object detection/src/main.cpp
+yolo.h
+/home/zherlock/c++ example/object detection/src/yolo.h
+
 /home/zherlock/c++ example/object detection/src/yolo.cpp
 yolo.h
 /home/zherlock/c++ example/object detection/src/yolo.h
